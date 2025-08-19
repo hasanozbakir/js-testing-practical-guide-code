@@ -12,3 +12,20 @@ it("should summarize all number values inn an array", () => {
   const expectedValue = numbers.reduce((prev, curr) => prev + curr, 0);
   expect(result).toBe(expectedValue);
 });
+
+it("should yield NaN if at least one invalid number is provided", () => {
+  const numbers = ["invalid", 1];
+
+  const result = add(numbers);
+
+  expect(result).toBeNaN();
+});
+
+it("should yield a correct sum if an array of numeric string values are provided", () => {
+  const numbers = ["1", "2"];
+
+  const result = add(numbers);
+
+  const expectedValue = numbers.reduce((prev, curr) => +prev + +curr, 0);
+  expect(result).toBe(expectedValue);
+});
