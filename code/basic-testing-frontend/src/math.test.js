@@ -29,3 +29,11 @@ it("should yield a correct sum if an array of numeric string values are provided
   const expectedValue = numbers.reduce((prev, curr) => +prev + +curr, 0);
   expect(result).toBe(expectedValue);
 });
+
+it("should yield 0 if an empty array is provided", () => {
+  const numbers = [];
+
+  const result = add(numbers);
+
+  expect(result).toBe(0);
+});
