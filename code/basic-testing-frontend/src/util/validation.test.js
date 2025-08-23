@@ -1,81 +1,85 @@
-import { it, expect } from "vitest";
+import { it, expect, describe } from "vitest";
 
 import { validateNumber, validateStringNotEmpty } from "./validation";
 
-it("should throw an error, if an empty string is provided", () => {
-  const input = "";
+describe("validateStringNotEmpty()", () => {
+  it("should throw an error, if an empty string is provided", () => {
+    const input = "";
 
-  const validationFn = () => validateStringNotEmpty(input);
+    const validationFn = () => validateStringNotEmpty(input);
 
-  expect(validationFn).toThrow();
+    expect(validationFn).toThrow();
+  });
+
+  it("should throw an error with message that contains a reason (must not be empty)", () => {
+    const input = "";
+
+    const validationFn = () => validateStringNotEmpty(input);
+
+    expect(validationFn).toThrow(/must not be empty/);
+  });
+
+  it("should throw an error if a long string of blanks is provided", () => {
+    const input = "                ";
+
+    const validationFn = () => validateStringNotEmpty(input);
+
+    expect(validationFn).toThrow();
+  });
+
+  it("should an error if any other value than a string is provided", () => {
+    const inputNum = 1;
+    const inputBool = true;
+    const inputObj = {};
+
+    const validationFnNum = () => validateStringNotEmpty(inputNum);
+    const validationFnBool = () => validateStringNotEmpty(inputBool);
+    const validationFnObj = () => validateStringNotEmpty(inputObj);
+
+    expect(validationFnNum).toThrow();
+    expect(validationFnBool).toThrow();
+    expect(validationFnObj).toThrow();
+  });
+
+  it("should throw an error if non-empty string is provided", () => {
+    const input = "valid";
+
+    const validationFn = () => validateStringNotEmpty(input);
+
+    expect(validationFn).not.toThrow();
+  });
 });
 
-it("should throw an error with message that contains a reason (must not be empty)", () => {
-  const input = "";
+describe("vallidateNumber()", () => {
+  it("should throw an error if NaN is provided", () => {
+    const input = NaN;
 
-  const validationFn = () => validateStringNotEmpty(input);
+    const validationFn = () => validateNumber(input);
 
-  expect(validationFn).toThrow(/must not be empty/);
-});
+    expect(validationFn).toThrow();
+  });
 
-it("should throw an error if a long string of blanks is provided", () => {
-  const input = "                ";
+  it("should throw an error with meassage that contains a reason (invalid number)", () => {
+    const input = NaN;
 
-  const validationFn = () => validateStringNotEmpty(input);
+    const validationFn = () => validateNumber(input);
 
-  expect(validationFn).toThrow();
-});
+    expect(validationFn).toThrow(/Invalid number/);
+  });
 
-it("should an error if any other value than a string is provided", () => {
-  const inputNum = 1;
-  const inputBool = true;
-  const inputObj = {};
+  it("should throw an error if any other non-number value is provided", () => {
+    const input = "1";
 
-  const validationFnNum = () => validateStringNotEmpty(inputNum);
-  const validationFnBool = () => validateStringNotEmpty(inputBool);
-  const validationFnObj = () => validateStringNotEmpty(inputObj);
+    const validationFn = () => validateNumber(input);
 
-  expect(validationFnNum).toThrow();
-  expect(validationFnBool).toThrow();
-  expect(validationFnObj).toThrow();
-});
+    expect(validationFn).toThrow();
+  });
 
-it("should throw an error if non-empty string is provided", () => {
-  const input = "valid";
+  it("should not throw an error if a valid number is provided", () => {
+    const input = 1;
 
-  const validationFn = () => validateStringNotEmpty(input);
+    const validationFn = () => validateNumber(input);
 
-  expect(validationFn).not.toThrow();
-});
-
-it("should throw an error if NaN is provided", () => {
-  const input = NaN;
-
-  const validationFn = () => validateNumber(input);
-
-  expect(validationFn).toThrow();
-});
-
-it("should throw an error with meassage that contains a reason (invalid number)", () => {
-  const input = NaN;
-
-  const validationFn = () => validateNumber(input);
-
-  expect(validationFn).toThrow(/Invalid number/);
-});
-
-it("should throw an error if any other non-number value is provided", () => {
-  const input = "1";
-
-  const validationFn = () => validateNumber(input);
-
-  expect(validationFn).toThrow();
-});
-
-it("should not throw an error if a valid number is provided", () => {
-  const input = 1;
-
-  const validationFn = () => validateNumber(input);
-
-  expect(validationFn).not.toThrow();
+    expect(validationFn).not.toThrow();
+  });
 });
