@@ -37,7 +37,8 @@ describe("cleanNumbers()", () => {
 
     const cleanedNumbers = cleanNumbers(input);
 
-    expect(cleanedNumbers[0]).toBeTypeOf("number");
+    // expect(cleanedNumbers[0]).toBeTypeOf("number");
+    expect(cleanedNumbers).toEqual([1, 2, 3]); // toBe() can only be used for primitive values
   });
 
   it("should throw an error if an array with at least one empty string is provided", () => {
